@@ -12,4 +12,4 @@ class Photograph(models.Model):
     album = models.ForeignKey(Album, on_delete=models.PROTECT)
     
     def __str__(self):
-        return f"{album.title} - {self.title}"
+        return f"{self.album.title} - {self.title}"

@@ -4,6 +4,7 @@ from photographs.serializers.photograph import PhotographSerializer
 
 class AlbumsSerializer(serializers.ModelSerializer):
     detail = serializers.HyperlinkedIdentityField(view_name='album', lookup_field='uuid')
+    photographs = PhotographSerializer(many=True, read_only=True, source='photograph_set')
 
     class Meta:
         model = Album
@@ -14,7 +15,8 @@ class AlbumsSerializer(serializers.ModelSerializer):
             'description',
             'cover_photo',
             'detail',
-            'location'
+            'location',
+            'photographs'
         ]
 
 class AlbumSerializer(serializers.ModelSerializer):
