@@ -10,3 +10,6 @@ class Photograph(models.Model):
     title = models.CharField(max_length=256)
     photo = models.ImageField(upload_to=store_photograph_image)
     album = models.ForeignKey(Album, on_delete=models.PROTECT)
+    
+    def __str__(self):
+        return f"{album.title} - {self.title}"

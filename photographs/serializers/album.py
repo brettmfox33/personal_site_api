@@ -1,9 +1,10 @@
 from rest_framework import serializers
 from photographs.models import Album
+from photographs.serializers.photograph import PhotographSerializer
 
-class AlbumSerializer(serializers.ModelSerializer):
-    # cover_photo_url = serializers.SerializerMethodField()
-    
+class AlbumsSerializer(serializers.ModelSerializer):
+    detail = serializers.HyperlinkedIdentityField(view_name='album', lookup_field='uuid')
+
     class Meta:
         model = Album
         fields = [
@@ -12,9 +13,21 @@ class AlbumSerializer(serializers.ModelSerializer):
             'date',
             'description',
             'cover_photo',
-            # 'cover_photoc_url'
+            'detail',
+            'location'
         ]
 
-    def get_cover_photo_url(self, instance):
-        request = self.context.get("request")
-        return request.build_absolute_uri(instance.cover_photo.url)
+class AlbumSerializer(serializers.ModelSerializer):
+    photographs = PhotographSerializer(many=True, read_only=True, source='photograph_set')
+
+    class Meta:
+        model = Album
+        fields = [
+            'uuid',
+            'title',
+            'date',
+            'description',
+            'cover_photo',
+            'photographs',
+            'location'
+        ]

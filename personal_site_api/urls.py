@@ -24,7 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/albums/', Albums.as_view(), name="albums"),
     path('api/albums/<str:uuid>/', AlbumDetails.as_view(), name="album"),
-    path('api/albums/<str:album_id>/photographs/', Photographs.as_view(), name="album")
+    path('api/albums/<str:album_id>/photographs/', Photographs.as_view(), name="photographs")
 ]
 
 if settings.DEBUG:

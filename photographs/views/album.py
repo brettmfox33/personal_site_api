@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 
 from photographs.models import Album
-from photographs.serializers.album import AlbumSerializer
+from photographs.serializers.album import AlbumSerializer, AlbumsSerializer
 from django.http.response import Http404
 
 class Albums(APIView):
@@ -12,11 +12,11 @@ class Albums(APIView):
     """
     def get(self, request):
         albums = Album.objects.all()
-        serializer = AlbumSerializer(albums, many=True, context={"request": request})
+        serializer = AlbumsSerializer(albums, many=True, context={"request": request})
         return Response(serializer.data)
     
     def post(self, request):
-        serializer = AlbumSerializer(data=request.data, context={"request": request})
+        serializer = AlbumsSerializer(data=request.data, context={"request": request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

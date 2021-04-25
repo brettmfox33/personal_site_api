@@ -8,6 +8,7 @@ class Album(models.Model):
     cover_photo = models.ImageField(upload_to=store_album_image)
     date = models.DateField()
     description = models.TextField()
+    location = models.CharField(max_length=256)
 
     def __str__(self):
         return self.title
