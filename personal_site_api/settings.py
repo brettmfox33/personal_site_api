@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-m0-qnelhj)!!25a8ic=#-jy5wtspzr8%5um-^9m0*(s5jfcyvd
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["personal-site-api-312201.wm.r.appspot.com"]
 
 
 # Application definition
@@ -79,12 +79,49 @@ WSGI_APPLICATION = 'personal_site_api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+# DATABASES = {
+#     # 'default': {
+#     #     'ENGINE': 'django.db.backends.sqlite3',
+#     #     'NAME': BASE_DIR / 'db.sqlite3',
+#     # }
+#     'default': {
+#             'ENGINE': 'django.db.backends.postgresql',
+#             'HOST': '/cloudsql/personal-site-api-312201:us-central1:ps-db',
+#             'USER': 'api-user',
+#             'PASSWORD': 'OnMyWayToMars',
+#             'NAME': 'api-db',
+#         }
+# }
+
+if os.getenv('GAE_APPLICATION', None):
+    # Running on production App Engine, so connect to Google Cloud SQL using
+    # the unix socket at /cloudsql/<your-cloudsql-connection string>
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'HOST': '/cloudsql/personal-site-api-312201:us-central1:ps-db',
+            'USER': 'api-user',
+            'PASSWORD': 'OnMyWayToMars',
+            'NAME': 'api-db',
+        }
     }
-}
+else:
+    # Running locally so connect to either a local MySQL instance or connect to
+    # Cloud SQL via the proxy. To start the proxy via command line:
+    #
+    #     $ cloud_sql_proxy -instances=[INSTANCE_CONNECTION_NAME]=tcp:3306
+    #
+    # See https://cloud.google.com/sql/docs/mysql-connect-proxy
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'HOST': '127.0.0.1',
+            'PORT': '3306',
+            'NAME': 'api-db',
+            'USER': 'api-user',
+            'PASSWORD': 'OnMyWayToMars',
+        }
+    }
 
 
 # Password validation
@@ -124,6 +161,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
