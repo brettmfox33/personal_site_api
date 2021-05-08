@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
+from google.oauth2 import service_account
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +27,7 @@ SECRET_KEY = 'django-insecure-m0-qnelhj)!!25a8ic=#-jy5wtspzr8%5um-^9m0*(s5jfcyvd
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["personal-site-api-312201.wm.r.appspot.com"]
+ALLOWED_HOSTS = ["personal-site-api-312201.wm.r.appspot.com", "localhost"]
 
 
 # Application definition
@@ -171,3 +173,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'mediafiles')
 MEDIA_URL = "mediafiles/"
+
+DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+GS_BUCKET_NAME = 'personal-site-api-312201.appspot.com'
+STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+# GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+#     "/Users/brettfox/Downloads/personal-site-api-312201-4fa4b55bd2cb.json"
+# )
